@@ -15,6 +15,8 @@
 package workload
 
 import (
+	"time"
+
 	"github.com/banzaicloud/allspark/internal/platform/log"
 	"github.com/spf13/viper"
 )
@@ -42,6 +44,11 @@ func (w *EchoWorkload) GetName() string {
 }
 
 func (w *EchoWorkload) Execute() (string, string, error) {
+	delay := viper.GetDuration("ECHO_DELAY")
+	if delay != 0 {
+		w.logger.Info("DELAY", delay)
+		time.Sleep(delay)
+	}
 	return viper.GetString("ECHO_STR"), "text/plain", nil
 	//return w.str, "text/plain", nil
 }
