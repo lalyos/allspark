@@ -16,6 +16,7 @@ package workload
 
 import (
 	"github.com/banzaicloud/allspark/internal/platform/log"
+	"github.com/spf13/viper"
 )
 
 const EchoWorkloadName = "Echo"
@@ -41,5 +42,6 @@ func (w *EchoWorkload) GetName() string {
 }
 
 func (w *EchoWorkload) Execute() (string, string, error) {
-	return w.str, "text/plain", nil
+	return viper.GetString("ECHO_STR"), "text/plain", nil
+	//return w.str, "text/plain", nil
 }
