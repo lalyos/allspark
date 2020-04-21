@@ -21,6 +21,7 @@ import (
 	"strings"
 
 	"emperror.dev/errors"
+	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
@@ -119,6 +120,10 @@ func setupViper(v *viper.Viper, p *pflag.FlagSet) {
 	v.AddConfigPath(".")
 	v.AddConfigPath("./config")
 	v.AddConfigPath("$HOME/config")
+	viper.WatchConfig()
+	viper.OnConfigChange(func(e fsnotify.Event) {
+		fmt.Println("Config file changed:", e.Name)
+	})
 	p.Init(FriendlyServiceName, pflag.ExitOnError)
 	pflag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage of %s:\n", FriendlyServiceName)
