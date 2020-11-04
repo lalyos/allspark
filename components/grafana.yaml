@@ -1,0 +1,19 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: infrastructure
+spec:
+  releaseName: grafana
+  chart:
+    repository: https://grafana.github.io/helm-charts
+    name: grafana
+    version: 5.8.10
+  values:
+    sidecar:
+      datasources:
+        enabled: true
+      dashboards:
+        enabled: true
+      notifiers:
+        enabled: true
